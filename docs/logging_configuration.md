@@ -70,7 +70,7 @@ PySDL supports standard Python logging levels:
 | INFO | 20 | General informational messages | Production monitoring |
 | WARNING | 30 | Warning messages for unusual situations | Production monitoring |
 | ERROR | 40 | Error messages for failures | Production monitoring |
-| CRITICAL | 50 | Critical failures | Production (effectively disables logging) |
+| CRITICAL | 50 | Critical failures | Disables all framework logging (no built-in methods log at this level) |
 
 ### Setting Log Level
 
@@ -171,11 +171,17 @@ For expensive operations, check before logging:
 ```python
 from pysdl.logger import SdlLogger, LogCategory
 
-# Check if category is enabled
+# Use is_enabled() to avoid expensive operations before logging
 if SdlLogger.is_enabled(LogCategory.SIGNALS):
-    # Perform expensive formatting only if needed
-    expensive_data = format_complex_signal_data()
-    SdlLogger.debug(expensive_data)
+    # Perform expensive formatting only if logging is enabled
+    formatted_data = format_complex_signal_data()
+
+# Note: Specialized methods like signal() already check categories internally
+SdlLogger.signal("SdlSig", signal, process)
+
+# For general logging, just call the methods directly
+SdlLogger.debug("Simple debug message")
+SdlLogger.info("System started")
 ```
 
 ## Performance Considerations
@@ -363,20 +369,21 @@ For code that runs frequently, check if logging is enabled to avoid overhead:
 ```python
 from pysdl.logger import SdlLogger, LogCategory
 
-# Pattern 1: Check once outside loop (best performance)
+# Pattern 1: Optimize when you have expensive PRE-PROCESSING
 def process_many_signals(signals):
     signals_enabled = SdlLogger.is_enabled(LogCategory.SIGNALS)
     for signal in signals:
         if signals_enabled:
-            SdlLogger.signal("SdlSig", signal, process)
-        # Process signal...
+            # Expensive operation you want to skip if logging is disabled
+            detailed_context = gather_expensive_context_data(signal)
+        # signal() already checks internally - this is just for optimization
+        SdlLogger.signal("SdlSig", signal, process)
 
-# Pattern 2: Check per iteration (use if logging status might change)
-def process_many_signals_dynamic(signals):
+# Pattern 2: Most common case - just call the method directly
+def process_many_signals_simple(signals):
     for signal in signals:
-        if SdlLogger.is_enabled(LogCategory.SIGNALS):
-            SdlLogger.signal("SdlSig", signal, process)
-        # Process signal...
+        # signal() checks internally - no manual check needed
+        SdlLogger.signal("SdlSig", signal, process)
 ```
 
 ### 6. Reset Between Tests

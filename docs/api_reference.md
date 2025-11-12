@@ -79,6 +79,9 @@ Register a process with the system.
 **Returns:**
 - `True` if registered successfully, `False` if process is None or already registered
 
+**Raises:**
+- `ValidationError`: If process is None or has invalid PID
+
 **Example:**
 ```python
 # Usually called automatically by Process.create()
@@ -97,7 +100,10 @@ Unregister a process and clean up its resources.
 - `process`: Process instance to unregister
 
 **Returns:**
-- `True` if unregistered successfully, `False` if process is None
+- `True` (always)
+
+**Raises:**
+- `ValidationError`: If process is None or has invalid PID
 
 **Side Effects:**
 - Removes process from `proc_map`
@@ -119,6 +125,10 @@ Add a signal to the system queue.
 **Parameters:**
 - `signal`: Signal to enqueue
 
+**Raises:**
+- `ValidationError`: If signal is None or invalid
+- `QueueError`: If queue operation fails
+
 **Example:**
 ```python
 # Usually called by process.input()
@@ -136,6 +146,10 @@ Route a signal to its destination process.
 
 **Returns:**
 - `True` if delivered successfully, `False` otherwise
+
+**Raises:**
+- `ValidationError`: If signal is None or has no destination
+- `SignalDeliveryError`: If signal delivery to destination fails
 
 **Side Effects:**
 - Adds destination process to `ready_list`
@@ -158,6 +172,10 @@ Start a timer for a process.
 
 **Parameters:**
 - `timer`: Timer to start
+
+**Raises:**
+- `ValidationError`: If timer is None
+- `TimerError`: If timer has no source PID
 
 **Side Effects:**
 - Stops timer if already running (prevents duplicates)
@@ -184,6 +202,9 @@ Stop a specific timer.
 **Returns:**
 - `True` if timer was found and stopped, `False` otherwise
 
+**Raises:**
+- `ValidationError`: If timer is None
+
 **Side Effects:**
 - Removes timer from `timer_map[pid]`
 - Deletes PID entry if no timers remain
@@ -201,7 +222,7 @@ system.stopTimer(timer)
 Run the main event loop.
 
 **Returns:**
-- Never returns normally (runs until stopped)
+- `True` when stopped normally
 
 **Behavior:**
 - Processes signals from queue
@@ -1018,7 +1039,7 @@ Find a handler for a state/event combination using priority-based wildcard match
 handler = fsm.find(state_running, WorkSignal.id())
 
 # Star state match (Priority 2)
-handler = fsm.find(state_any, EmergencySignal.id())  # If star handler registered
+handler = fsm.find(star, EmergencySignal.id())  # If star handler registered
 
 # Star signal match (Priority 3)
 handler = fsm.find(state_init, unknown_signal.id())  # If star signal handler registered

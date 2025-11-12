@@ -53,21 +53,19 @@ async def debugging_handler(self, signal):
     SdlLogger.info(f"Current state: {self.current_state().name()}")
 ```
 
-#### 2. Calling `_done()` - Optional but Recommended
+#### 2. Always Call `_done()`
+
+The `_done()` method should always be called at the end of `_init_state_machine()` to mark completion of the state machine setup. While not strictly enforced, it's a best practice for code clarity and consistency.
 
 ```python
-# Both are valid, but _done() is recommended for consistency
+# RECOMMENDED PATTERN
 def _init_state_machine(self):
     self._event(start, SdlStartSignal, self.start_handler)
-    self._done()  # Recommended: marks completion of FSM setup
-
-# This also works (as shown in examples/main.py)
-def _init_state_machine(self):
-    self._event(start, SdlStartSignal, self.start_handler)
-    # No _done() needed, but less clear
+    self._event(self.state_idle, MySignal, self.idle_handler)
+    self._done()  # Always call _done() to finalize FSM
 ```
 
-**Note:** While `_done()` is not strictly required, it's recommended for code clarity and consistency. The framework will work correctly either way.
+**Note:** All documentation examples consistently use `_done()` and it should be considered part of the standard pattern.
 
 #### 3. Wrong signal type
 
