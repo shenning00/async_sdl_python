@@ -2,8 +2,8 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Pipeline Status](https://gitlab.com/your-repo/async_sdl_python/badges/main/pipeline.svg)](https://gitlab.com/your-repo/async_sdl_python/-/commits/main)
-[![Coverage](https://gitlab.com/your-repo/async_sdl_python/badges/main/coverage.svg)](https://gitlab.com/your-repo/async_sdl_python/-/commits/main)
+[![CI](https://github.com/shenning00/async_sdl_python/actions/workflows/ci.yml/badge.svg)](https://github.com/shenning00/async_sdl_python/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/shenning00/async_sdl_python/branch/main/graph/badge.svg)](https://codecov.io/gh/shenning00/async_sdl_python)
 
 A lightweight, asynchronous Python library implementing the **Specification and Description Language (SDL)** actor model pattern for building concurrent, event-driven applications.
 
@@ -34,7 +34,7 @@ pip install pysdl
 
 **From source**:
 ```bash
-git clone https://gitlab.com/your-repo/async_sdl_python.git
+git clone https://github.com/shenning00/async_sdl_python.git
 cd async_sdl_python
 # Upgrade pip first to avoid installation issues
 python -m pip install --upgrade pip
@@ -245,19 +245,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-- **Issues**: Report bugs via GitLab Issues
+- **Issues**: Report bugs via GitHub Issues
 - **Documentation**: See the [docs/](docs/) directory
 - **Examples**: See [examples/main.py](examples/main.py) and [docs/examples.md](docs/examples.md)
-
-## Breaking Changes in v1.0.0
-
-PySDL v1.0.0 introduces breaking changes to support instance-based systems. This enables running multiple independent SDL systems in the same process and eliminates global state.
-
-Key changes:
-- `SdlSystem` is now instance-based - create instances with `system = SdlSystem()`
-- `SdlProcess.create()` and `__init__()` now require `system` parameter
-- All `SdlSystem.method()` static calls are now `system.method()` instance calls
-- Processes access their system via `self._system` attribute
 
 ## Roadmap
 

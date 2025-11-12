@@ -15,7 +15,7 @@ We take the security of PySDL seriously. If you believe you have found a securit
 
 ### Reporting Process
 
-**Please do not report security vulnerabilities through public GitHub/GitLab issues.**
+**Please do not report security vulnerabilities through public GitHub issues.**
 
 Instead, please report them via email to:
 - **Email**: shenning_00@yahoo.com
@@ -87,7 +87,7 @@ When using PySDL in your applications:
 ## Security Updates
 
 Security updates will be released as patch versions and announced via:
-- GitLab release notes
+- GitHub release notes
 - CHANGELOG.md updates
 - Email notification to reporters
 

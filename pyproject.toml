@@ -38,10 +38,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://gitlab.com/YOUR_USERNAME/async_sdl_python"
-"Bug Tracker" = "https://gitlab.com/YOUR_USERNAME/async_sdl_python/-/issues"
-Documentation = "https://gitlab.com/YOUR_USERNAME/async_sdl_python/-/tree/main/docs"
-"Source Code" = "https://gitlab.com/YOUR_USERNAME/async_sdl_python"
+Homepage = "https://github.com/shenning00/async_sdl_python"
+"Bug Tracker" = "https://github.com/shenning00/async_sdl_python/issues"
+Documentation = "https://github.com/shenning00/async_sdl_python/tree/main/docs"
+"Source Code" = "https://github.com/shenning00/async_sdl_python"
 
 [tool.ruff]
 # Set line length to match Black's default
