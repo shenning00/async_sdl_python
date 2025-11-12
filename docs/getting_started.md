@@ -38,7 +38,7 @@ Before you begin with PySDL, ensure you have:
 
 ```bash
 # Clone the repository
-git clone https://gitlab.com/your-repo/async_sdl_python.git
+git clone https://github.com/shenning00/async_sdl_python.git
 cd async_sdl_python
 
 # Install in editable mode

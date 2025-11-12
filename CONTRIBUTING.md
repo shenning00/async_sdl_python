@@ -29,11 +29,11 @@ We are committed to providing a welcoming and inclusive environment for all cont
 
 ### Setting Up Your Development Environment
 
-1. Fork the repository on GitLab
+1. Fork the repository on GitHub
 
 2. Clone your fork:
 ```bash
-git clone https://gitlab.com/YOUR_USERNAME/async_sdl_python.git
+git clone https://github.com/YOUR_USERNAME/async_sdl_python.git
 cd async_sdl_python
 ```
 
@@ -121,7 +121,7 @@ pylint pysdl/
 git push origin feature/amazing-feature
 ```
 
-Then create a Merge Request on GitLab with a clear description of your changes.
+Then create a Pull Request on GitHub with a clear description of your changes.
 
 ## Development Guidelines
 
@@ -482,9 +482,9 @@ Commit types:
 - `test:` - Adding tests
 - `chore:` - Maintenance tasks
 
-### Merge Request Guidelines
+### Pull Request Guidelines
 
-When creating a merge request:
+When creating a pull request:
 
 1. **Title**: Clear, descriptive summary of changes
 2. **Description**: Include:
@@ -504,7 +504,7 @@ When creating a merge request:
 
 ### Review Process
 
-After submitting a merge request:
+After submitting a pull request:
 
 1. Automated tests will run via CI/CD
 2. Maintainers will review your code
@@ -522,8 +522,8 @@ Tips for faster reviews:
 If you have questions or need help:
 
 - Check existing documentation in the `docs/` directory
-- Review closed issues and merge requests for similar questions
+- Review closed issues and pull requests for similar questions
 - Open a new issue for discussion
-- Reach out to maintainers via GitLab
+- Reach out to maintainers via GitHub
 
 Thank you for contributing to PySDL!

@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- Optimized GitLab CI cache configuration
+- Optimized CI cache configuration
 - Removed temporary test scripts and improved .gitignore
 
 ## [1.0.0] - 2025-10-26
@@ -103,6 +103,6 @@ The initial release established the core framework with:
 
 ---
 
-[Unreleased]: https://gitlab.com/your-repo/async_sdl_python/compare/v1.0.0...HEAD
-[1.0.0]: https://gitlab.com/your-repo/async_sdl_python/compare/v0.0.1...v1.0.0
-[0.0.1]: https://gitlab.com/your-repo/async_sdl_python/releases/tag/v0.0.1
+[Unreleased]: https://github.com/shenning00/async_sdl_python/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/shenning00/async_sdl_python/compare/v0.0.1...v1.0.0
+[0.0.1]: https://github.com/shenning00/async_sdl_python/releases/tag/v0.0.1

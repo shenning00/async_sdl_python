@@ -952,7 +952,7 @@ If you're still stuck:
 1. **Check logs**: Enable verbose logging
 2. **Read docs**: [API Reference](api_reference.md), [Architecture](architecture.md)
 3. **Review examples**: [Examples](examples.md)
-4. **File an issue**: Report bugs on GitLab
+4. **File an issue**: Report bugs on GitHub
 5. **Ask questions**: Use project discussions or issues
 
 ---
