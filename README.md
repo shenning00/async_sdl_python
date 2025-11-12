@@ -36,8 +36,13 @@ pip install pysdl
 ```bash
 git clone https://gitlab.com/your-repo/async_sdl_python.git
 cd async_sdl_python
-pip install -e .
+# Upgrade pip first to avoid installation issues
+python -m pip install --upgrade pip
+# Install in editable mode with dev dependencies
+pip install -e ".[dev]"
 ```
+
+> **Note:** Upgrading pip is recommended to ensure editable installs work correctly with pyproject.toml-based projects.
 
 **Using PYTHONPATH** (for development):
 ```bash
