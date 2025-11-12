@@ -1,0 +1,191 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pysdl"
+version = "1.0.0"
+description = "Asynchronous Python library implementing SDL actor model for event-driven applications"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    {name = "Scott Henning", email = "shenning_00@yahoo.com"}
+]
+keywords = ["sdl", "actor-model", "async", "state-machine", "event-driven", "asyncio"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "mypy>=1.13.0",
+    "ruff>=0.8.0",
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/YOUR_USERNAME/async_sdl_python"
+"Bug Tracker" = "https://gitlab.com/YOUR_USERNAME/async_sdl_python/-/issues"
+Documentation = "https://gitlab.com/YOUR_USERNAME/async_sdl_python/-/tree/main/docs"
+"Source Code" = "https://gitlab.com/YOUR_USERNAME/async_sdl_python"
+
+[tool.ruff]
+# Set line length to match Black's default
+line-length = 88
+# Target Python 3.9+ (minimum supported version)
+target-version = "py39"
+
+# Exclude common directories
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.ruff.lint]
+# Enable pycodestyle (E, W), Pyflakes (F), isort (I), and other useful rules
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # Pyflakes
+    "I",     # isort
+    "N",     # pep8-naming
+    "UP",    # pyupgrade
+    "YTT",   # flake8-2020
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "A",     # flake8-builtins
+    "C4",    # flake8-comprehensions
+    "DTZ",   # flake8-datetimez
+    "T10",   # flake8-debugger
+    "EM",    # flake8-errmsg
+    "ISC",   # flake8-implicit-str-concat
+    "ICN",   # flake8-import-conventions
+    "G",     # flake8-logging-format
+    "PIE",   # flake8-pie
+    "T20",   # flake8-print
+    "PT",    # flake8-pytest-style
+    "Q",     # flake8-quotes
+    "RSE",   # flake8-raise
+    "RET",   # flake8-return
+    "SLF",   # flake8-self
+    "SIM",   # flake8-simplify
+    "TID",   # flake8-tidy-imports
+    "TCH",   # flake8-type-checking
+    "ARG",   # flake8-unused-arguments
+    "PTH",   # flake8-use-pathlib
+    "ERA",   # eradicate
+    "PL",    # Pylint
+    "TRY",   # tryceratops
+    "RUF",   # Ruff-specific rules
+]
+
+# Ignore specific rules that may be too strict or not applicable
+ignore = [
+    "E501",    # Line too long (handled by formatter)
+    "N802",    # Function name should be lowercase (SDL uses state_Signal pattern)
+    "N806",    # Variable name should be lowercase (SDL uses timerList, etc.)
+    "N815",    # Variable in class scope should not be mixedCase (state_A pattern)
+    "PLR0913", # Too many arguments to function call
+    "PLR2004", # Magic value used in comparison
+    "PLW1641", # Object does not implement __hash__ (intentional for some classes)
+    "TRY003",  # Avoid specifying long messages outside exception class
+    "TRY300",  # Consider moving statement to else block (not always clearer)
+    "RUF006",  # Store reference to return value of create_task (not always needed)
+    "RUF012",  # Mutable class attributes should be ClassVar (intentional in this design)
+    "RUF022",  # __all__ is not sorted (organized by category, not alphabetically)
+    "RUF046",  # Value being cast to int is already integer (defensive coding)
+    "SIM105",  # Use contextlib.suppress (sometimes try-except is clearer)
+    "SIM108",  # Use ternary operator (sometimes if-else is more readable)
+    "TC001",   # Move import into type-checking block (causes circular import issues)
+    "TC003",   # Move import into type-checking block (not always beneficial)
+    "EM101",   # Exception must not use string literal (overly strict)
+    "EM102",   # Exception must not use f-string literal (overly strict)
+    "G004",    # Logging statement uses f-string (f-strings are fine for logging)
+    "ARG002",  # Unused method argument (signals handlers have standard signature)
+    "ARG005",  # Unused lambda argument (sometimes needed for API compliance)
+    "B007",    # Loop control variable not used (intentional for fixed iterations)
+    "PTH123",  # open() should be replaced by Path.open() (not always better)
+]
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore certain rules in test files
+"tests/**/*.py" = [
+    "ARG001",  # Unused function argument (common in fixtures)
+    "PLR2004", # Magic value in comparison (common in tests)
+    "S101",    # Use of assert detected (required in pytest)
+    "SLF001",  # Private member access (needed for testing internal state)
+    "PLC0415", # Import should be at top-level (sometimes needed in tests)
+    "SIM117",  # Use single with statement (nested mocks are clearer)
+    "PT012",   # pytest.raises() with multiple statements (sometimes clearer)
+]
+# Ignore certain rules in main.py (example/demo file)
+"main.py" = [
+    "T201",    # print() found (acceptable in demo/example)
+]
+# Ignore certain rules in source files that access private members intentionally
+"pysdl/process.py" = [
+    "SLF001",  # Private member access (needed for _id and _register)
+]
+
+[tool.ruff.format]
+# Use double quotes for strings
+quote-style = "double"
+# Use spaces for indentation
+indent-style = "space"
+# Respect magic trailing commas
+skip-magic-trailing-comma = false
+# Auto-detect line ending
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+asyncio_mode = "auto"

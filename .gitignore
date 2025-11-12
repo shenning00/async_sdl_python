@@ -1,0 +1,36 @@
+venv/
+.venv/
+.vscode/
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+build/
+dist/
+pysdl.egg-info/
+junit.xml
+
+# Coverage reports
+.coverage
+coverage.xml
+htmlcov/
+
+# Type checking cache
+.mypy_cache/
+.pytest_cache/
+
+# Build and test artifacts
+*.egg-info/
+.eggs/
+junit.xml
+
+# Temporary test scripts (keep in examples/ or demos/)
+/test_*.py
+/benchmark_*.py
+
+# Security - never commit credentials
+access.txt
+*.token
+*.key
+.env
+.env.*
