@@ -93,8 +93,8 @@ class HelloProcess(SdlProcess):
         # call start_handler
         self._event(start, SdlStartSignal, self.start_handler)
 
-        # IMPORTANT: Always call _done() at the end of _init_state_machine()
-        # This finalizes the state machine and prevents undefined behavior
+        # Call _done() at the end of _init_state_machine() for clarity (recommended)
+        # This marks completion of the state machine setup
         self._done()
 
     async def start_handler(self, signal):
@@ -178,7 +178,7 @@ class GreeterProcess(SdlProcess):
 
     async def start_handler(self, signal):
         """Send greeting to friend."""
-        greeting = GreetingSignal.create(data="Hello, friend!")
+        greeting = GreetingSignal.create("Hello, friend!")
         await self.output(greeting, self.friend_pid)
 
         SdlLogger.info(f"{self.pid()} sent greeting")
@@ -207,7 +207,7 @@ class ReceiverProcess(SdlProcess):
         SdlLogger.info(f"{self.pid()} received: {signal.data}")
 
         # Reply back
-        reply = GreetingSignal.create(data="Hi there!")
+        reply = GreetingSignal.create("Hi there!")
         await self.output(reply, signal.src())
 
         # Stop after replying
@@ -698,7 +698,7 @@ class ClientProcess(SdlProcess):
         self.server_pid = config_data.get("server_pid") if config_data else None
 
     async def start_handler(self, signal):
-        request = RequestSignal.create(data={"request_id": 123})
+        request = RequestSignal.create({"request_id": 123})
         await self.output(request, self.server_pid)
         await self.next_state(self.state_waiting)
 

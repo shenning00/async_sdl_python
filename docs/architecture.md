@@ -188,7 +188,7 @@ def _init_state_machine(self):
 
 ### Handler Naming Convention
 
-By convention, handlers are named: `{state}_{signal}`:
+By convention (not enforced), handlers are often named: `{state}_{signal}`:
 
 ```python
 async def start_StartSignal(self, signal):
@@ -199,6 +199,8 @@ async def wait_timeout_TimeoutTimer(self, signal):
     """Handler for TimeoutTimer in wait_timeout state."""
     ...
 ```
+
+**Note:** This naming convention is a recommendation for code clarity and consistency, but the framework does not enforce it. You can use any valid Python method name for your handlers.
 
 ### State Transitions
 
@@ -393,27 +395,30 @@ The `SdlSystem.run()` method implements the main event loop:
 ```python
 async def run():
     while True:
-        # 1. Get next signal from queue
+        signal = None
+        # 1. Get next signal with timeout
         try:
-            signal = get_next_signal()
+            signal = await asyncio.wait_for(
+                get_next_signal(), timeout=0.01
+            )
+        except asyncio.TimeoutError:
+            pass  # No signal available
 
-            # 2. Route signal to process
+        if signal is not None:
+            # 2. Route and execute handler
             process = lookup_proc_map(signal.dst())
             handler = process.lookup_transition(signal)
-
-            # 3. Execute handler
             await handler(signal)
-        except Empty:
-            pass
 
-        # 4. Check timer expiries
+        # 3. Check timer expiries
         await expire(current_time_ms())
 
-        # 5. Check for system stop
+        # 4. Check for system stop
         if _stop:
             loop.stop()
+            return True
 
-        # 6. Yield to other tasks
+        # 5. Yield to other tasks
         await asyncio.sleep(0)
 ```
 

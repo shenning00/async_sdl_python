@@ -22,7 +22,7 @@ A classic example demonstrating two processes sending signals back and forth.
 
 ```python
 import asyncio
-from typing import Optional
+from typing import Optional, Any
 from pysdl import (
     SdlProcess, SdlSignal, SdlState, SdlSystem,
     SdlStartSignal, SdlStoppingSignal, SdlLogger
@@ -50,9 +50,9 @@ class PingPongProcess(SdlProcess):
 
     _count: int = 0
 
-    def __init__(self, parent_pid: Optional[str], peer_pid: Optional[str] = None, system=None):
-        super().__init__(parent_pid, system=system)
-        self.peer_pid = peer_pid
+    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any] = None, system=None):
+        super().__init__(parent_pid, config_data, system=system)
+        self.peer_pid = config_data.get("peer_pid") if config_data else None
 
     async def start_StartTransition(self, signal: SdlSignal) -> None:
         """If peer exists, send ping and wait for pong, otherwise wait for ping."""
@@ -107,7 +107,7 @@ async def main():
 
     # Create processes with system
     p1 = await PingPongProcess.create(None, None, system=system)
-    p2 = await PingPongProcess.create(None, p1.pid(), system=system)
+    p2 = await PingPongProcess.create(None, {"peer_pid": p1.pid()}, system=system)
 
     # Run the system
     await system.run()
@@ -394,7 +394,7 @@ class SupervisorProcess(SdlProcess):
 
     state_managing = SdlState("managing")
 
-    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any], system=None):
+    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any] = None, system=None):
         super().__init__(parent_pid, config_data, system=system)
         self.children = SdlChildrenManager()
         self.work_items = 10  # Total work to distribute
@@ -545,7 +545,7 @@ class ClientProcess(SdlProcess):
 
     state_waiting = SdlState("waiting")
 
-    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any], system=None):
+    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any] = None, system=None):
         super().__init__(parent_pid, config_data, system=system)
         self.client_id = config_data
 
@@ -651,7 +651,7 @@ class ServerProcess(SdlProcess):
     state_idle = SdlState("idle")
     state_processing = SdlState("processing")
 
-    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any], system=None):
+    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any] = None, system=None):
         super().__init__(parent_pid, config_data, system=system)
         self.current_request = None
 
@@ -710,9 +710,9 @@ class ClientProcess(SdlProcess):
 
     state_waiting = SdlState("waiting")
 
-    def __init__(self, parent_pid: Optional[str], server_pid: str, system=None):
-        super().__init__(parent_pid, system=system)
-        self.server_pid = server_pid
+    def __init__(self, parent_pid: Optional[str], config_data: Optional[Any] = None, system=None):
+        super().__init__(parent_pid, config_data, system=system)
+        self.server_pid = config_data.get("server_pid") if config_data else None
         self.request_id = random.randint(1000, 9999)
 
     async def start_handler(self, signal):
@@ -758,9 +758,9 @@ async def main():
     server = await ServerProcess.create(None, None, system=system)
 
     # Create multiple clients
-    await ClientProcess.create(None, server.pid(), system=system)
-    await ClientProcess.create(None, server.pid(), system=system)
-    await ClientProcess.create(None, server.pid(), system=system)
+    await ClientProcess.create(None, {"server_pid": server.pid()}, system=system)
+    await ClientProcess.create(None, {"server_pid": server.pid()}, system=system)
+    await ClientProcess.create(None, {"server_pid": server.pid()}, system=system)
 
     # Run for 10 seconds
     await asyncio.sleep(10)

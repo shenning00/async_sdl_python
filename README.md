@@ -178,11 +178,11 @@ async_sdl_python/
 - **Python**: 3.9 or higher (uses type hints and async features)
 - **Dependencies**: None (uses only Python standard library)
 - **Development Dependencies**:
-  - pytest >= 7.0
-  - pytest-asyncio >= 0.21
-  - pytest-cov >= 4.0
-  - mypy >= 1.0 (for type checking)
-  - pylint >= 2.0 (for linting)
+  - pytest >= 8.0
+  - pytest-asyncio >= 0.23
+  - pytest-cov >= 4.1
+  - mypy >= 1.13 (for type checking)
+  - ruff >= 0.8 (for linting)
 
 ## Testing
 
@@ -199,7 +199,7 @@ pytest --cov=pysdl --cov-report=html
 mypy pysdl/
 
 # Run linting
-pylint pysdl/
+ruff check pysdl/
 ```
 
 ## Contributing
@@ -220,7 +220,7 @@ Contributions are welcome! Please:
 - **Type Safety**: All code must have comprehensive type hints
 - **Testing**: Maintain >90% test coverage
 - **Documentation**: Update docs for API changes
-- **Code Style**: Follow PEP 8, use black formatter
+- **Code Style**: Follow PEP 8, use ruff formatter
 - **Async**: Use async/await properly, avoid blocking calls
 - **Logging**: Use SdlLogger for framework events
 
@@ -248,8 +248,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 PySDL v1.0.0 introduces breaking changes to support instance-based systems. This enables running multiple independent SDL systems in the same process and eliminates global state.
 
-**See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for detailed migration instructions from v0.0.1 to v1.0.0.**
-
 Key changes:
 - `SdlSystem` is now instance-based - create instances with `system = SdlSystem()`
 - `SdlProcess.create()` and `__init__()` now require `system` parameter
@@ -269,7 +267,7 @@ Future enhancements under consideration:
 
 ## Version History
 
-- **1.0.0** (2025-10-26) - Instance-based system **[BREAKING CHANGES]**
+- **1.0.0** (2024-10-26) - Instance-based system **[BREAKING CHANGES]**
   - Refactored `SdlSystem` from static class to instance-based
   - Added `system` parameter to `SdlProcess` creation and initialization
   - Processes now reference their system instance via `self._system`
@@ -277,7 +275,6 @@ Future enhancements under consideration:
   - Eliminates global state for better testability
   - All tests updated (242 tests, 83% coverage)
   - All examples updated to use instance-based API
-  - See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for upgrade path
 
 - **0.0.1** - Initial release
   - Core actor model implementation
